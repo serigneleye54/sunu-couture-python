@@ -4,6 +4,7 @@ import re
 def  saisir_commande() :
     
     client = {}
+    print("Entrez vos identifiants")
     while True:
         nom= input("Entrez le nom : ")
         if valider_nom(nom) == False :
@@ -48,9 +49,10 @@ def  saisir_commande() :
             client ["email"] = email
             break
         
+    print("\nType de vetement")    
     vetements= ["robe","costume","chemise","jean"]
     while True:
-        vetement = input("Entrer le type de vetement(robe,costume,chemise,jean):").lower()
+        vetement = input("Entrer le type de vetement choisi(robe,costume,chemise,jean):").lower()
         if valider_vetement(vetement) == False:
             print("ce champ est requis.")
         elif vetement in vetements:
@@ -59,53 +61,76 @@ def  saisir_commande() :
             break
         else:
             print("Type de vetement non valide.veullez resaisir un type de vetement dans la liste.")
-      
-    liste_sexe = ["h","f"]
+            
+    print("\nSexe")  
+    liste_sexe = ["homme","femme"]
     while True:
-        sexe = input("Entrer le type de sexe(h/f):").lower()
+        sexe = input("Entrer le type de sexe(homme/femme):").lower()
         if valider_sexe(sexe) == False:
             print("ce champ est requis.")
         elif sexe in liste_sexe :
             #concaténation avec f
-            print(f"vous etes:{sexe}")
+            print(f"vous etes un(e):{sexe}")
             break
         else:
             print("Invalide.Veuillez saisir h(homme) ou f(femme):")
             
+    print("\nVos mesures :")
     while True:
-        mesure = float(input("veuillez saisir la taille:"))
-        if valider_mesure(mesure) == False:
-            print("ce champ est requis.")
         try:
-            
-            if mesure <= 0:
-                print("la taille doit etre strictement superieur a zero.")
+            mesure = float(input("Veuillez saisir la taille:"))
+            if mesure != 0:
+                break
+            else:
+                print("Taille doit etre strictement superieur a zero.")
         except ValueError:
-            print("la mesure doit etre un nombre.")
-        
-def main():
-    print("Entrer vos mesures:")
-    taille = valider_mesure("taille:")
-    hanche = valider_mesure("hanche:")
-    longueur = valider_mesure("longueur:")
-    print("\n Vos mesures : ")
-    print(f"taille = {taille}")
-    print(f"hanche = {hanche}")
-    print(f"longueur = {longueur}")
-    if __name__ ==" main ":main()
+            print("Taille doit etre un nombre.")
             
-                   
+    while True:
+        try:
+            mesure = float(input("Veuillez saisir hanche:"))
+            if mesure != 0:
+                break
+            else:
+                print("Hanche doit etre strictement superieur a zero.")
+        except ValueError:
+            print("Hanche doit etre un nombre.")
+             
+    while True:        
+        try:
+            mesure = float(input("Veuillez saisir la longueur:"))
+            if mesure != 0:
+                break
+            else:
+                print("Longueur doit etre strictement superieur a zero.")
+        except ValueError:
+            print("Longueur doit etre un nombre.")
+            
+    print("\nVos options")        
+    choix = ["oui","non"]
+    while True:
+        livraison = input("Entrez oui ou non pour livraison:").lower()  
+        if livraison in choix:
+            print(f"Vous avez choisi :{livraison}")
+            break
+        else:
+            print("choix non valide")
+            
+    choix = ["oui","non"]
+    while True:
+        retouche = input("Entrez oui ou non pour retouche:").lower()  
+        if retouche in choix:
+            print(f"Vous avez choisi :{retouche}")
+            break
+        else:
+            print("choix non valide")
+            
+    
+             
     client = {
-        
-        "mesures": {
-            "taille": input("Entrez la taille (en cm) : "),
-            "hanche": input("Entrez le tour de hanche (en cm) : "),
-            "longueur": input("Entrez la longueur (en cm) : "),
-        },
         "options": {
-            "livraison": input("Livraison ? (oui/non) : "),
-            "retouche": input("Retouche ? (oui/non) : "),
-            "commentaire": input("Commentaire : "),
+           
+            "commentaire": input("Veuillez laisser un commentaire : "),
         }
     }
         
@@ -159,6 +184,12 @@ def valider_sexe(sexe):
     
 def valider_mesure(mesure):
     if not mesure:
+        return False
+    else:
+        return True
+    
+def valider_option(option):
+    if not option:
         return False
     else:
         return True
