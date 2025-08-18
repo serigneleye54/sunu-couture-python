@@ -1,10 +1,13 @@
-[
+
     {
-        "date": "23/07/2025",
-        "taille": 123.0,
-        "hanche": 1.0,
-        "longueur": 23.0,
-        "retouche": "non",
-        "livraison": "oui"
-    }
-]
+        "nom": "seck",
+        "prenom": "ablaye",
+        "telephone": "779998800",
+        "email": "AZER1234@gmail.com",
+        "taille": 76.0,
+        "hanche": 75.0,
+        "longueur": 73.0,
+        "retouche": "oui",
+        "livraison": "non"
+    },
+    

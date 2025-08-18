@@ -2,170 +2,79 @@ import re
 import datetime
 import json
 #creation de liste commande :
-commandes = []
 #definition du dictionnaire :
+
 def  saisir_commande() :
     client = {}
+    #ajout d'un tuple pour recuperer la valeur des variable:
+    nom,prenom,telephone,email,sexe,vetement,taille,hanche,longueur,livraison,retouche = ajouter_commande()
     
-    print("Entrez vos identifiants")
-    while True:
-        nom= input("Entrez le nom : ")
-        if valider_nom(nom) == False :
-            print("Ce champ est requis.")
-        elif nom.isdigit():
-            print("Les lettres sont seulements autorisées")
-        else: 
-            #ajouter un element dans un dictionnaire
-            client["nom"] = nom
-            break
+    #creation du dictionnaire commande :       
+    commande = {
+        "nom" : nom,
+        "prenom" : prenom,
+        "telephone" : telephone,
+        "email" : email,
+        "sexe" : sexe,
+        "vetement" : vetement,
+        "taille" : taille,
+        "hanche" : hanche,
+        "longueur" : longueur,
+        "retouche" : livraison,
+        "livraison" : retouche,
+        }
+    commandes = {
+     
+        "nom" : "",
+        "prenom" : "",
+        "telephone" : "",
+        "email" : "",
+        "sexe" : "",
+        "vetement" : "",
+        "taille" : "",
+        "hanche" : "",
+        "longueur" : "",
+        "retouche" : "",
+        "livraison" : "",
         
+    }
     
-    while True:
-        prenom= input("Entrez le prenom: ")
-        if valider_prenom(prenom) == False :
-            print("Ce champ est requis.")
-        elif prenom.isdigit():
-            print("Les lettres sont seulements autorisées")
-        else:
-            client["prenom"] = prenom
-            break
-        
-    
-    while True:
-        telephone= input("Entrer le numéro de téléphone:")
-        if valider_numero(telephone) == False :
-            print("Ce champ est requis.")
-        elif telephone.isalpha():
-             print("Les chiffres sont seulements autorisées")
-        else:
-            client ["téléphone"] = telephone
-            break 
-        
-    
-    while True:
-        email= input("Entrer l'adresse email:")
-        if not email:
-            print("Ce champ est requis.")
-        elif valider_email(email) == False:
-            print("Veuillez saisir un email valide.")
-        else:
-            client ["email"] = email
-            break
-        
-    print("\nType de vetement")    
-    vetements= ["robe","costume","chemise","jean"]
-    while True:
-        vetement = input("Entrer le type de vetement choisi(robe,costume,chemise,jean):").lower()
-        if valider_vetement(vetement) == False:
-            print("Ce champ est requis.")
-        elif vetement in vetements:
-            #concaténation avec +
-            print("Vous avez choisi: " + vetement)
-            break
-        else:
-            print("Type de vetement non valide.veullez resaisir un type de vetement dans la liste.")
+    #creation de la fonction afficher commande:
+    print("\nMes commandes:")
+    items = list(commandes.items())
+    for i in range(len(items)):
+        print(f"commande {i}:")
+        print(f"nom:{items[i][1]}")
+        print(f"prenom:{items[i][2]}")
+        print(f"telephone:{items[i][3]}")
+        print(f"email:{items[i][4]}")
+        print(f"hanche:{items[i][5]}")
+        print(f"longueur:{items[i][6]}")
+        print(f"retouche :{items[i][7]}")
+        print(f"livraison:{items[i][8]}")
+    #chargement des commandes.
+    try:
+        #on a dit au programme douvrir le fichier(commandes.json) et de faire la lecture (r)
+        with open('commandes.json','r') as fichier:
+            commandes = json.load(fichier)
+        print("commande chargée avec success!.")
+    except FileNotFoundError:
+        print("Aucun fichier de commande trouvé.")
+        commandes = []
+    #ajout du dictionnaire a la liste commande:
+    commandes.append(commande)
+    print("\nCommande ajoutée avec succes.")
     
             
-    print("\nSexe")  
-    liste_sexe = ["homme","femme"]
-    while True:
-        sexe = input("Entrer le type de sexe(homme/femme):").lower()
-        if valider_sexe(sexe) == False:
-            print("Ce champ est requis.")
-        elif sexe in liste_sexe :
-            #concaténation avec f
-            print(f"Vous etes un(e):{sexe}")
-            break
-        else:
-            print("Invalide.Veuillez saisir homme ou femme:")
-    
+    #Sauvegarder toutes les commandes dans un fichier commandes.json à la fin
+    #on a dit au programme douvrir le fichier(commandes.json) et décrire la commande
+    with open('commandes.json','w') as fichier:  
+        json.dump(commandes,fichier,indent=4)  
+        print("\nCommande sauvegardée avec succés !") 
+         
+           
             
-    print("\nVos mesures :")
-    while True:
-        try:
-            taille = float(input("Veuillez saisir la taille:"))
-            if taille != 0:
-                break
-            else:
-                print("Taille doit etre strictement superieur a zero.")
-        except ValueError:
-            print("Taille doit etre un nombre.")
-            
-    while True:
-        try:
-            hanche = float(input("Veuillez saisir hanche:"))
-            if hanche != 0:
-                break
-            else:
-                print("Hanche doit etre strictement superieur a zero.")
-        except ValueError:
-            print("Hanche doit etre un nombre.")
-             
-    while True:        
-        try:
-            longueur = float(input("Veuillez saisir la longueur:"))
-            if longueur != 0:
-                break
-            else:
-                print("Longueur doit etre strictement superieur a zero.")
-        except ValueError:
-            print("Longueur doit etre un nombre.")
-            
-    global commandes   
-    nombre_commandes = len(commandes)
-    #Initialise des variables pour sommer les tailles, hanches et longueurs.
-    somme_tailles = 0
-    somme_hanches = 0
-    somme_longueurs = 0
-    #Parcourt de chaque commande dans la liste.
-    for commande in commandes:
-        #Vérifie si la commande a le bon format (3 mesures). Si non, afficher commande invalide.
-        if len(commande) != 3:
-            print("Commande invalide")
-            #Ajoute les mesures aux sommes respectives.
-            somme_tailles += taille
-            somme_hanches += hanche
-            somme_longueurs += longueur
-        #Calcule les moyennes en divisant les sommes par le nombre de commandes.
-        if nombre_commandes == 0:
-                print("Erreur")
-        else:
-            moyenne_tailles = somme_tailles / nombre_commandes
-            moyenne_hanches = somme_hanches / nombre_commandes
-            moyenne_longueurs = somme_longueurs / nombre_commandes
-                
-        #Fonction taille_recommandée(mesure) qui recommande un type de tissu ou 
-        #coupe selon les valeurs.             
-        mesures = {"taillle","hanche","longueur"}
-        if taille is None or hanche is None or longueur is None:
-           print("Les mesures sont incomplétes.")
-        elif taille < 160:
-           print("Vous avez une silhouette petite.Nous vous recommandons des coupes ajustées et des tissus légers.")
-        elif taille >= 160 and taille <170:
-            print("Vous avez une silhouette moyenne.Nous vous recommandons des coupes classiques et des tissus de qualité moyenne.")
-        else:
-            print("Vous avez une silhouette grande.Nous vous recommandons des coupes droites et des tissus épais.")
-        
-             
-    print("\nVos options")        
-    choix = ["oui","non"]
-    while True:
-        livraison = input("Entrez oui ou non pour livraison:").lower()  
-        if livraison in choix:
-            print(f"Vous avez choisi :{livraison}")
-            break
-        else:
-            print("Choix non valide")
-    
-            
-    choix = ["oui","non"]
-    while True:
-        retouche = input("Entrez oui ou non pour retouche:").lower()  
-        if retouche in choix:
-            print(f"Vous avez choisi :{retouche}")
-            break
-        else:
-            print("Choix non valide")
+   
     client = {
         "options": {
            
@@ -178,43 +87,6 @@ def  saisir_commande() :
     date_du_jour = datetime.date.today().strftime("%d/%m/%Y")
     print(f"Date de la commande:{date_du_jour}")   
     
-    #creation du dictionnaire commande :
-    commande = {
-        "date" : date_du_jour,
-        "taille" : taille,
-        "hanche" : hanche,
-        "longueur" : longueur,
-        "retouche" : livraison,
-        "livraison" : retouche,
-        }
-    #ajout du dictionnaire a la liste commande:
-    commandes.append(commande)
-    #creation de la fonction afficher commande:
-    print("\nListe des commandes:")
-    for i, commande in enumerate(commandes, start = 1):
-        print(f"commande {i}:")
-        print(f"date:{commande['date']}")
-        print(f"taille:{commande['taille']}")
-        print(f"hanche:{commande['hanche']}")
-        print(f"longueur:{commande['longueur']}")
-        print(f"retouche :{commande['livraison']}")
-        print(f"livraison:{commande['retouche']}")
-        
-    #Sauvegarder toutes les commandes dans un fichier commandes.json à la fin
-    #on a dit au programme douvrir le fichier(commandes.json) et décrire la commande
-    with open('commandes.json','w') as fichier:  
-        json.dump(commandes,fichier,indent=4)  
-        print("\nCommande sauvegardée avec succés !") 
-        
-    #chargement des commandes.
-    try:
-        #on a dit au programme douvrir le fichier(commandes.json) et de faire la lecture (r)
-        with open('commandes.json','r') as fichier:
-            commandes = json.load(fichier)
-        print("commande chargée avec success!.")
-    except FileNotFoundError:
-        print("Aucun fichier de commande trouvé.")
-        
         
     #ajouter une commande:
     print("\nAjout d'une nouvelle commande")
@@ -256,42 +128,151 @@ def  saisir_commande() :
                 print(f"commande trouvée : {commande['numero']} -{commande['description']}")
             else:
                 print(f"commande trouvée : {commande['numero']}")
-             
-    print("\nMenu :")            
+    
+    
+def ajouter_commande():
+    #initialisation des variables
+    nom = ""
+    prenom = ""
+    telephone =""
+    email = ""
+    vetement = ""
+    sexe = ""
+    taille = ""
+    hanche = ""
+    longueur = ""
+    livraison = ""
+    retouche = ""
     while True:
-        print("1.Ajouter une nouvelle commande")
-        print("2.Afficher toutes les commande")
-        print("3.Chauvegarder les commande:")
-        print("4.Charger les commande depuis le fichier")
-        print("5.Statistique sur les commande")
-        print("6.Rechercher une commande par numero")
-        print("8.Quitter le programme")
-        
-        choix = input("Choisissez une option :")
-        if choix == "1":
-            ajouter_commande()
-        elif choix == "2":
-            afficher_commande()
-        elif choix == "3":
-            sauvegarder_commande()
-        elif choix == "4":
-            charger_commande()
-        elif choix == "5":
-            statistique_commande()
-        elif choix == "6":
-            rechercher_commande()
-        elif choix == "8":
-            print("Au revoir !")
+        print("Formulaire de commande:")
+        nom = input("Entrez le nom : ")
+        if  nom == False :
+            print("Ce champ est requis.")
+        elif nom.isdigit():
+            print("Les lettres sont seulements autorisées")
+        else: 
+            
             break
-        else:
-            print("Option invalide.Veuillez choisir une option valide.")
         
     
+    while True:
+        prenom= input("Entrez le prenom: ")
+        if prenom == False :
+            print("Ce champ est requis.")
+        elif prenom.isdigit():
+            print("Les lettres sont seulements autorisées")
+        else:
+            
+            break
         
+    
+    while True:
+        telephone= input("Entrer le numéro de téléphone:")
+        if telephone == False :
+            print("Ce champ est requis.")
+        elif telephone.isalpha():
+             print("Les chiffres sont seulements autorisées")
+        else:
+            
+            break 
+        
+    
+    while True:
+        email= input("Entrer l'adresse email:")
+        if not email:
+            print("Ce champ est requis.")
+        elif email == False:
+            print("Veuillez saisir un email valide.")
+        else:
+            
+            break
+        
+        
+    vetements= ["robe","costume","chemise","jean"]
+    while True:
+        vetement = input("Entrer le type de vetement choisi(robe,costume,chemise,jean):").lower()
+        if vetement == False:
+            print("Ce champ est requis.")
+        elif vetement in vetements:
+            #concaténation avec +
+            print("Vous avez choisi: " + vetement)
+            break
+        else:
+            print("Type de vetement non valide.veullez resaisir un type de vetement dans la liste.")
+    
+            
+      
+    liste_sexe = ["homme","femme"]
+    while True:
+        sexe = input("Entrer le type de sexe(homme/femme):").lower()
+        if sexe == False:
+            print("Ce champ est requis.")
+        elif sexe in liste_sexe :
+            #concaténation avec f
+            print(f"Vous etes un(e):{sexe}")
+            break
+        else:
+            print("Invalide.Veuillez saisir homme ou femme:")
+    
+            
+    
+    while True:
+        try:
+            taille = float(input("Veuillez saisir la taille:"))
+            if taille != 0:
+                break
+            else:
+                print("Taille doit etre strictement superieur a zero.")
+        except ValueError:
+            print("Taille doit etre un nombre.")
+            
+    while True:
+        try:
+            hanche = float(input("Veuillez saisir hanche:"))
+            if hanche != 0:
+                break
+            else:
+                print("Hanche doit etre strictement superieur a zero.")
+        except ValueError:
+            print("Hanche doit etre un nombre.")
+             
+    while True:        
+        try:
+            longueur = float(input("Veuillez saisir la longueur:"))
+            if longueur != 0:
+                break
+            else:
+                print("Longueur doit etre strictement superieur a zero.")
+        except ValueError:
+            print("Longueur doit etre un nombre.")
+              
+    
+           
+    choix = ["oui","non"]
+    while True:
+        livraison = input("Entrez oui ou non pour livraison:").lower()  
+        if livraison in choix:
+            print(f"Vous avez choisi :{livraison}")
+            break
+        else:
+            print("Choix non valide")
+    
+            
+    choix = ["oui","non"]
+    while True:
+        retouche = input("Entrez oui ou non pour retouche:").lower()  
+        if retouche in choix:
+            print(f"Vous avez choisi :{retouche}")
+            break
+        else:
+            print("Choix non valide")
+    #renvoi des variables
+    return nom,prenom,telephone,email,vetement,sexe,taille,hanche,longueur,livraison,retouche  
+    
+             
 def valider_nom(nom):
-    # Vérifie si le champ est vide
-    if not nom :
-        return False 
+    if not nom:
+        return False
     else:
         return True
     
@@ -349,33 +330,29 @@ def valider_option(option):
         return True
     
     
-def afficher_commande():
-    if not commandes:
+def afficher_commande(commande):
+    if not commande:
         return False
     else:
         return True
     
-def ajouter_commande():
-    if not commandes:
-        return False
-    else:
-        return True
+
     
-def sauvegarder_commande():
-    if not commandes:
+def sauvegarder_commande(commande):
+    if not commande:
         return False
     else:
         return True
     
         
-def charger_commande():
-    if not commandes:
+def charger_commande(commande):
+    if not commande:
         return False
     else:
         return True 
     
-def calcul_moyenne_mesures(commandes): 
-    if not commandes:
+def calcul_moyenne_mesures(commande): 
+    if not commande:
         return None  
 
 def taille_recommandee(mesure):
@@ -390,15 +367,15 @@ def mesures(mesures):
     else:
         return True
     
-def statistique_commande():
+def statistique_commande(commande):
 
-    if not commandes:
+    if not commande:
         return False
     else:
         return True 
     
-def rechercher_commande():
-    if not commandes:
+def rechercher_commande(commande):
+    if not commande:
         return False
     else:
         return True 

@@ -1,0 +1,202 @@
+
+liste_commandes = {}
+def ajouter_commande():
+    #initialisation des variables
+   
+    
+    while True:
+        print("\nFormulaire de commande:")
+        nom = input("Entrez le nom : ")
+        if  nom == False :
+            print("Ce champ est requis.")
+        elif nom.isdigit():
+            print("Les lettres sont seulements autorisées")
+        else: 
+            
+            break
+        
+    
+    while True:
+        prenom= input("Entrez le prenom: ")
+        if prenom == False :
+            print("Ce champ est requis.")
+        elif prenom.isdigit():
+            print("Les lettres sont seulements autorisées")
+        else:
+            
+            break
+        
+    
+    while True:
+        telephone= input("Entrer le numéro de téléphone:")
+        if telephone == False :
+            print("Ce champ est requis.")
+        elif telephone.isalpha():
+             print("Les chiffres sont seulements autorisées")
+        else:
+            
+            break 
+        
+    
+    while True:
+        email= input("Entrer l'adresse email:")
+        if not email:
+            print("Ce champ est requis.")
+        elif email == False:
+            print("Veuillez saisir un email valide.")
+        else:
+            
+            break
+        
+        
+    vetements= ["robe","costume","chemise","jean"]
+    while True:
+        vetement = input("Entrer le type de vetement choisi(robe,costume,chemise,jean):").lower()
+        if vetement == False:
+            print("Ce champ est requis.")
+        elif vetement in vetements:
+            #concaténation avec +
+            print("Vous avez choisi: " + vetement)
+            break
+        else:
+            print("Type de vetement non valide.veullez resaisir un type de vetement dans la liste.")
+    
+            
+      
+    liste_sexe = ["homme","femme"]
+    while True:
+        sexe = input("Entrer le type de sexe(homme/femme):").lower()
+        if sexe == False:
+            print("Ce champ est requis.")
+        elif sexe in liste_sexe :
+            #concaténation avec f
+            print(f"Vous etes un(e):{sexe}")
+            break
+        else:
+            print("Invalide.Veuillez saisir homme ou femme:")
+    
+            
+    
+    while True:
+        try:
+            taille = float(input("Veuillez saisir la taille:"))
+            if taille != 0:
+                break
+            else:
+                print("Taille doit etre strictement superieur a zero.")
+        except ValueError:
+            print("Taille doit etre un nombre.")
+            
+    while True:
+        try:
+            hanche = float(input("Veuillez saisir hanche:"))
+            if hanche != 0:
+                break
+            else:
+                print("Hanche doit etre strictement superieur a zero.")
+        except ValueError:
+            print("Hanche doit etre un nombre.")
+             
+    while True:        
+        try:
+            longueur = float(input("Veuillez saisir la longueur:"))
+            if longueur != 0:
+                break
+            else:
+                print("Longueur doit etre strictement superieur a zero.")
+        except ValueError:
+            print("Longueur doit etre un nombre.")
+              
+    
+           
+    choix = ["oui","non"]
+    while True:
+        livraison = input("Entrez oui ou non pour livraison:").lower()  
+        if livraison in choix:
+            print(f"Vous avez choisi :{livraison}")
+            break
+        else:
+            print("Choix non valide")
+    
+            
+    choix = ["oui","non"]
+    while True:
+        retouche = input("Entrez oui ou non pour retouche:").lower()  
+        if retouche in choix:
+            print(f"Vous avez choisi :{retouche}")
+            break
+        else:
+            print("Choix non valide")
+    #creation d'un objet commande.
+    commande = {
+        "nom" : nom,
+        "prenom" : prenom,
+        "telephone" : telephone,
+        "email" : email,
+        "sexe" : sexe,
+        "vetement" : vetement,
+        "taille" : taille,
+        "hanche" : hanche,
+        "longueur" : longueur,
+        "livraison" : livraison,
+        "retouche" : retouche, 
+    }
+    
+    #ajout au dictionnaire des liste_commandes.
+    liste_commandes[len(liste_commandes.items())+1] = commande
+def afficher_commande(liste_commandes):
+    print("\n************ LISTES DES COMMANDES************")
+    for i,(commande_id,commande) in enumerate(liste_commandes,start=1):
+       print(f"Commande n°{commande_id}")
+       print(f"nom :{commande['nom']}")
+       print(f"prenom :{commande['prenom']}")
+       print(f"telephone :{commande['telephone']}")
+       print(f"email :{commande['email']}")
+       print(f"sexe :{commande['sexe']}")
+       print(f"vetement :{commande['vetement']}")
+       print(f"taille :{commande['taille']}")
+       print(f"hanche :{commande['hanche']}")
+       print(f"longueur :{commande['longueur']}")
+       print(f"livraison :{commande['livraison']}")
+       print(f"retouche :{commande['retouche']}\n\n")
+        
+def sauvegarder_commande():
+   pass  
+def charger_derniere_commande():
+    derniers = list(liste_commandes.items())[-3:]
+    afficher_commande(derniers)
+    
+def statistique_commande():
+    pass
+def rechercher_commande():
+    pass
+while True:
+    print("\n1.Ajouter une nouvelle commande")
+    print("2.Afficher toutes les commande")
+    print("3.Sauvegarder les liste_commandes:")
+    print("4.Charger les liste_commandes depuis le fichier")
+    print("5.Statistique sur les liste_commandesa")
+    print("6.Rechercher une commande par numéro")
+    print("7.Afficher les 3 dernieres commandes")
+    print("8.Quitter le programme")
+        
+    choix = input("Choisissez une option :")
+    if choix == "1":
+        ajouter_commande()
+    elif choix == "2":
+        afficher_commande(liste_commandes.items())
+    elif choix == "3":
+        sauvegarder_commande()
+    elif choix == "4":
+        charger_commande()
+    elif choix == "5":
+        statistique_commande()
+    elif choix == "6":  
+        rechercher_commande()
+    elif choix == "7":
+        charger_derniere_commande()
+    elif choix == "8":
+        print("Au revoir !")
+        break            
+    else:
+        print("Option invalide.Veuillez choisir une option valide.")
