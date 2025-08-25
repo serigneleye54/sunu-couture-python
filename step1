@@ -1,9 +1,6 @@
-
+import json
 liste_commandes = {}
 def ajouter_commande():
-    #initialisation des variables
-   
-    
     while True:
         print("\nFormulaire de commande:")
         nom = input("Entrez le nom : ")
@@ -161,7 +158,17 @@ def afficher_commande(liste_commandes):
        print(f"retouche :{commande['retouche']}\n\n")
         
 def sauvegarder_commande():
-   pass  
+    try:
+        with open('liste_commandes.json','r',encoding="utf-8") as f : 
+            data = json.load(f)
+            data = liste_commandes
+        with open('liste_commandes.json','w',encoding="utf-8") as f:
+            json.dump(data,f,indent=4,ensure_ascii = False) 
+        print("commande chargée avec success!.")
+    except FileNotFoundError:
+        print("Aucun fichier de commande trouvé.")
+
+         
 def charger_derniere_commande():
     derniers = list(liste_commandes.items())[-3:]
     afficher_commande(derniers)

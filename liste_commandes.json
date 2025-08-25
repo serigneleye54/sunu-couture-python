@@ -1,0 +1,28 @@
+{
+    "1": {
+        "nom": "diop",
+        "prenom": "ada",
+        "telephone": "777000",
+        "email": "AA77@gmail.com",
+        "sexe": "femme",
+        "vetement": "robe",
+        "taille": 77.0,
+        "hanche": 77.0,
+        "longueur": 77.0,
+        "livraison": "oui",
+        "retouche": "non"
+    },
+    "2": {
+        "nom": "seck",
+        "prenom": "samba",
+        "telephone": "77000000",
+        "email": "AA77@gmail.com",
+        "sexe": "homme",
+        "vetement": "costume",
+        "taille": 77.0,
+        "hanche": 77.0,
+        "longueur": 77.0,
+        "livraison": "non",
+        "retouche": "oui"
+    }
+}

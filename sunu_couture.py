@@ -1,6 +1,5 @@
 import re
 import datetime
-import json
 #creation de liste commande :
 #definition du dictionnaire :
 
@@ -53,26 +52,7 @@ def  saisir_commande() :
         print(f"retouche :{items[i][7]}")
         print(f"livraison:{items[i][8]}")
     #chargement des commandes.
-    try:
-        #on a dit au programme douvrir le fichier(commandes.json) et de faire la lecture (r)
-        with open('commandes.json','r') as fichier:
-            commandes = json.load(fichier)
-        print("commande chargée avec success!.")
-    except FileNotFoundError:
-        print("Aucun fichier de commande trouvé.")
-        commandes = []
-    #ajout du dictionnaire a la liste commande:
-    commandes.append(commande)
-    print("\nCommande ajoutée avec succes.")
     
-            
-    #Sauvegarder toutes les commandes dans un fichier commandes.json à la fin
-    #on a dit au programme douvrir le fichier(commandes.json) et décrire la commande
-    with open('commandes.json','w') as fichier:  
-        json.dump(commandes,fichier,indent=4)  
-        print("\nCommande sauvegardée avec succés !") 
-         
-           
             
    
     client = {
