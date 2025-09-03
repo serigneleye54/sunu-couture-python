@@ -1,0 +1,8 @@
+type en python:les donnees definit la nature des donnees et les calcules de ces donnees et permet par exemple de manipuler les information
+exemple: int ,flaot, booleen
+
+4.difference entre boucle for et boucle while:
+boucle for: nous permet d'executer un code pour un nombre de fois connu
+boucle while: nous permet d'executer un code lors qu'une condition est vrai
+
+5.Que signifie le concepte de validation des donnees dans un programme :c a dir on va controler les donnees Que l'on a importees si sont fiable ou non
